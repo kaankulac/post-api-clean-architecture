@@ -4,3 +4,8 @@ export * from './get-id-by-username-repository';
 export * from './load-user-by-token-repository';
 export * from './load-user-by-username-repository';
 export * from './update-access-token-repository';
+export * from './follow-user-repostiory';
+export * from './unfollow-user-repostiory';
+export * from './add-follower-repostiory';
+export * from './remove-follower-repository';
+export * from './load-user-by-id-repository';

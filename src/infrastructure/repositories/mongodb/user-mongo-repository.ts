@@ -1,14 +1,19 @@
 import { MongoHelper } from '@infrastructure/repositories';
 import {
+    AddFollowerRepository,
     CheckUserByUsernameRepository,
     CreateUserRepository,
+    FollowUserRepository,
     GetIdByUsernameRepository,
     LoadUserByTokenRepository,
     LoadUserByUsernameRepository,
+    RemoveFollowerRepository,
+    UnfollowUserRepository,
     UpdateAccessTokenRepository
 } from '@data/protocols';
 import { ObjectId } from 'mongodb';
 import { User } from '@domain/schemas';
+import { LoadUserByIdRepository } from '@data/protocols/repositories/user/load-user-by-id-repository';
 
 export class UserMongoRepository
     implements
@@ -17,7 +22,12 @@ export class UserMongoRepository
         GetIdByUsernameRepository,
         LoadUserByTokenRepository,
         LoadUserByUsernameRepository,
-        UpdateAccessTokenRepository
+        UpdateAccessTokenRepository,
+        FollowUserRepository,
+        UnfollowUserRepository,
+        AddFollowerRepository,
+        RemoveFollowerRepository,
+        LoadUserByIdRepository
 {
     async create(data: CreateUserRepository.Params): Promise<CreateUserRepository.Result> {
         const result = await User.create(data);
@@ -25,7 +35,6 @@ export class UserMongoRepository
     }
 
     async loadByUsername(username: LoadUserByUsernameRepository.Params): Promise<LoadUserByUsernameRepository.Result> {
-        console.log(username);
         const user = await User.findOne(
             {
                 username
@@ -36,7 +45,6 @@ export class UserMongoRepository
                 password: 1
             }
         );
-        console.log(user);
         return user && MongoHelper.map(user);
     }
 
@@ -65,9 +73,32 @@ export class UserMongoRepository
             {
                 accessToken: token
             },
-            { _id: 1 }
+            { projection: { _id: 1 } }
         );
 
         return user && MongoHelper.map(user);
+    }
+
+    async loadById(id: LoadUserByIdRepository.Params): Promise<LoadUserByIdRepository.Result> {
+        const user = await User.findOne({ _id: id }, { projection: { username: 1 } }, { lean: true });
+        return user && MongoHelper.map(user);
+    }
+
+    async follow(data: FollowUserRepository.Params): Promise<void> {
+        await User.findByIdAndUpdate(data.followedBy, { $push: { followings: data.followed } }).lean();
+        await this.addFollower(data);
+    }
+
+    async unfollow(data: UnfollowUserRepository.Params): Promise<void> {
+        await User.findByIdAndUpdate(data.followedBy, { $pull: { followings: data.followed } }).lean();
+        await this.removeFollower(data);
+    }
+
+    async addFollower(data: AddFollowerRepository.Params): Promise<void> {
+        await User.findByIdAndUpdate(data.followed, { $push: { followers: data.followedBy } });
+    }
+
+    async removeFollower(data: RemoveFollowerRepository.Params): Promise<void> {
+        await User.findByIdAndUpdate(data.followed, { $pull: { followers: data.followedBy } });
     }
 }
