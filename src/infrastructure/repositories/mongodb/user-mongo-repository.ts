@@ -60,7 +60,7 @@ export class UserMongoRepository
     }
 
     async checkByUserName(username: string): Promise<boolean> {
-        const user = await User.findOne({ username }, { projection: { _id: 1 } }, { lean: true });
+        const user = await User.findOne({ username }, { _id: 1 }, { lean: true });
         return user !== null;
     }
 
@@ -86,12 +86,10 @@ export class UserMongoRepository
 
     async follow(data: FollowUserRepository.Params): Promise<void> {
         await User.findByIdAndUpdate(data.followedBy, { $push: { followings: data.followed } }).lean();
-        await this.addFollower(data);
     }
 
     async unfollow(data: UnfollowUserRepository.Params): Promise<void> {
         await User.findByIdAndUpdate(data.followedBy, { $pull: { followings: data.followed } }).lean();
-        await this.removeFollower(data);
     }
 
     async addFollower(data: AddFollowerRepository.Params): Promise<void> {

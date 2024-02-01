@@ -1,6 +1,6 @@
 import env from '@main/config/env';
 import { LoadUserByToken } from '@domain/usecases';
-import { DbLoadUserByToken } from '@data/usecaes';
+import { DbLoadUserByToken } from '@data/usecases';
 import { UserMongoRepository } from '@infrastructure/repositories';
 import { JwtAdapter } from '@infrastructure/cryptography';
 

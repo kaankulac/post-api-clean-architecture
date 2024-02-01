@@ -1,5 +1,5 @@
 export interface FollowUserRepository {
-    follow: (data: FollowUserRepository.Params) => Promise<void>;
+    follow: (data: FollowUserRepository.Params) => Promise<FollowUserRepository.Result>;
 }
 
 export namespace FollowUserRepository {
@@ -8,5 +8,5 @@ export namespace FollowUserRepository {
         followed: string;
     };
 
-    export type Result = boolean;
+    export type Result = void;
 }

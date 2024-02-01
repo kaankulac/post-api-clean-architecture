@@ -1,4 +1,4 @@
-import { DbCreateUser } from '@data/usecaes';
+import { DbCreateUser } from '@data/usecases';
 import { CreateUser } from '@domain/usecases';
 import { UserMongoRepository } from '@infrastructure/repositories';
 import { BcryptAdapter } from '@infrastructure/cryptography';

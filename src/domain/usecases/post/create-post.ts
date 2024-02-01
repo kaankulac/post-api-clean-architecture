@@ -1,5 +1,3 @@
-import { PostDocument } from '@domain/models';
-
 export interface CreatePost {
     create: (data: CreatePost.Params) => Promise<CreatePost.Result>;
 }

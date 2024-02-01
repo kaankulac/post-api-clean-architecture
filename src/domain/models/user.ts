@@ -9,6 +9,7 @@ export interface UserDocument {
     id?: Types.ObjectId | string;
     username: string;
     password: string;
+    accessToken: string;
     totalLikes: number;
     posts: Types.ObjectId[]; // array of post ids
     likes: Types.ObjectId[]; // array of liked post ids

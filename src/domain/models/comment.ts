@@ -5,6 +5,7 @@ export interface CommentDocument {
     comment: string;
     author: Types.ObjectId | string; // user id
     post: Types.ObjectId | string; // post id
+    commentId?: Types.ObjectId | string; // post id
     replyTo?: Types.ObjectId | string;
     totalLikes: number;
     totalComments: number;

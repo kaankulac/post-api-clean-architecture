@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 export interface LikeComment {
     like: (data: LikeComment.Params) => Promise<LikeComment.Result>;
 }

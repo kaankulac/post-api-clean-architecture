@@ -1,5 +1,5 @@
 import { Validation } from '@presentation/protocols';
-import yup, { AnySchema, ValidationError } from 'yup';
+import { AnySchema } from 'yup';
 
 export class CompareFieldsValidation implements Validation {
     constructor(private readonly schema: AnySchema) {}

@@ -33,7 +33,7 @@ export class CommentMongoRepository
     }
 
     async delete(commentId: string): Promise<boolean> {
-        const result = await Comment.deleteOne({ _id: new ObjectId(commentId) });
+        const result = await Comment.deleteMany({ _id: new ObjectId(commentId) });
         return result.deletedCount > 0;
     }
 
@@ -52,7 +52,7 @@ export class CommentMongoRepository
     }
 
     async loadByComment(repliedCommentId: string): Promise<LoadCommentsByCommentRepository.Result> {
-        const result = await Comment.find({ replyTo: new ObjectId(repliedCommentId) });
+        const result = await Comment.find({ replyTo: repliedCommentId });
 
         return result.length > 0 ? MongoHelper.mapCollection(result) : [];
     }

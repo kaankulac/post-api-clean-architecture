@@ -1,4 +1,5 @@
 import { CommentDocument } from '@domain/models';
+import { Types } from 'mongoose';
 
 export interface EditComment {
     edit: (data: EditComment.Params) => Promise<EditComment.Result>;
@@ -6,7 +7,7 @@ export interface EditComment {
 
 export namespace EditComment {
     export type Params = {
-        commentId: string;
+        commentId: Types.ObjectId | string;
         comment: string;
     };
 

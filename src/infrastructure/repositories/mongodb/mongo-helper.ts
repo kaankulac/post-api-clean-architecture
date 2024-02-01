@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose, { Collection, Mongoose } from 'mongoose';
 
 export const MongoHelper = {
     client: null as Mongoose | null,
@@ -12,6 +12,10 @@ export const MongoHelper = {
     async disconnect(): Promise<void> {
         await this.client!.disconnect();
         this.client = null;
+    },
+
+    getCollection(name: string): Collection {
+        return this.client.connection.collection(name);
     },
 
     map: (data: any): any => {

@@ -13,6 +13,7 @@ const UserSchema = new Schema(
     {
         username: { type: String, required: true },
         password: { type: String, required: true },
+        accessToken: { type: String },
         totalLikes: { type: Number, default: 0 },
         posts: { type: [Types.ObjectId], default: [], ref: 'Post' },
         likes: { type: [Types.ObjectId], default: [], ref: 'Post' },
