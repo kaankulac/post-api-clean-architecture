@@ -3,3 +3,4 @@ export * from './db-delete-post';
 export * from './db-edit-post';
 export * from './db-like-post';
 export * from './db-load-posts-by-user';
+export * from './db-load-posts';

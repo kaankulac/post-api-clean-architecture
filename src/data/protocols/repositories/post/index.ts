@@ -5,3 +5,4 @@ export * from './load-post-by-id-repository';
 export * from './load-posts-by-user-repository';
 export * from './like-post-repository';
 export * from './unlike-post-repository';
+export * from './load-posts-repository';

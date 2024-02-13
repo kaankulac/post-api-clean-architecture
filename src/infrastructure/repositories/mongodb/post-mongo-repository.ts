@@ -6,7 +6,8 @@ import {
     LoadPostByIdRepository,
     LoadPostsByUserRepository,
     LikePostRepository,
-    UnlikePostRepository
+    UnlikePostRepository,
+    LoadPostRepository
 } from '@data/protocols';
 import { Post } from '@domain/schemas';
 import { ObjectId } from 'mongodb';
@@ -19,7 +20,8 @@ export class PostMongoRepository
         LoadPostByIdRepository,
         LoadPostsByUserRepository,
         LikePostRepository,
-        UnlikePostRepository
+        UnlikePostRepository,
+        LoadPostRepository
 {
     async create(data: CreatePostRepository.Params): Promise<CreatePostRepository.Result> {
         const result = await Post.create(data);
@@ -65,5 +67,17 @@ export class PostMongoRepository
             { $inc: { totalLikes: -1 }, $pull: { likes: data.user } }
         );
         return result.modifiedCount > 0;
+    }
+
+    async loadPosts(data: LoadPostRepository.Params): Promise<LoadPostRepository.Result> {
+        const posts = await Post.find({})
+            .skip(data.pagination.per * data.pagination.page)
+            .limit(data.pagination.per)
+            .lean();
+        const totalCount = await await Post.find({}).lean().countDocuments();
+        return {
+            posts,
+            totalCount
+        };
     }
 }
