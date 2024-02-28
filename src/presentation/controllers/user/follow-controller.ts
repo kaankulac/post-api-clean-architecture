@@ -19,7 +19,7 @@ export class FollowController implements Controller {
             if (request.isFollow) {
                 success = await this.follow.follow({ followed: request.followed, followedBy: request.userId });
             } else {
-                success = await this.follow.follow({ followed: request.followed, followedBy: request.userId });
+                success = await this.unfollow.unfollow({ followed: request.followed, followedBy: request.userId });
             }
             return ok('success');
         } catch (error) {

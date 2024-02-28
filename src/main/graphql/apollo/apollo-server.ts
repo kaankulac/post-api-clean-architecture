@@ -2,7 +2,7 @@ import typeDefs from '@main/graphql/type-defs';
 import resolvers from '@main/graphql/resolvers';
 import { authDirectiveTransformer } from '../directives';
 
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { ApolloServer } from '@apollo/server';
 import { GraphQLError } from 'graphql';
 

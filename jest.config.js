@@ -4,6 +4,9 @@ module.exports = {
         '<rootDir>/src/**/*.ts',
         '!<rootDir>/src/main/**'
     ],
+    "modulePaths": [
+        "<rootDir>"
+    ],
     coverageDirectory: 'coverage',
     coverageProvider: 'babel',
     testEnvironment: 'node',
@@ -17,6 +20,7 @@ module.exports = {
         '@data/(.*)': '<rootDir>/src/data/$1',
         '@infrastructure/(.*)': '<rootDir>/src/infrastructure/$1',
         '@main/(.*)': '<rootDir>/src/main/$1',
-        '@presentation/(.*)': '<rootDir>/src/presentation/$1'
-    }
+        '@presentation/(.*)': '<rootDir>/src/presentation/$1',
+        '@validation/(.*)': '<rootDir>/src/validation/$1'
+    },
 }

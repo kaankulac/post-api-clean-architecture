@@ -1,4 +1,4 @@
-import { FollowController } from '@presentation/controllers/user/follow-controller';
+import { FollowController } from '@presentation/controllers';
 import { Controller } from '@presentation/protocols';
 import {
     makeDbFollowUser,

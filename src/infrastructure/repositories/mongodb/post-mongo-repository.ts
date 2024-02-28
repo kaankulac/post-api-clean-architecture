@@ -53,7 +53,7 @@ export class PostMongoRepository
 
     async likePost(data: LikePostRepository.Params): Promise<LikePostRepository.Result> {
         const result = await Post.updateOne(
-            { _id: new ObjectId(data.post) },
+            { _id: data.post },
             { $inc: { totalLikes: 1 }, $push: { likes: data.user } }
         );
         return result.modifiedCount > 0;
@@ -62,7 +62,7 @@ export class PostMongoRepository
     async unlikePost(data: UnlikePostRepository.Params): Promise<UnlikePostRepository.Result> {
         const result = await Post.updateOne(
             {
-                _id: new ObjectId(data.post)
+                _id: data.post
             },
             { $inc: { totalLikes: -1 }, $pull: { likes: data.user } }
         );

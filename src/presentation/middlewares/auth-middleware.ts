@@ -1,5 +1,5 @@
 import { Middleware, HttpResponse } from '@presentation/protocols';
-import { forbidden, ok, serverError } from '@presentation/helpers';
+import { forbidden, ok, serverError, unauthorized } from '@presentation/helpers';
 import { AccessDeniedError } from '@domain/errors';
 import { LoadUserByToken } from '@domain/usecases';
 
@@ -15,7 +15,7 @@ export class AuthMiddleware implements Middleware {
                     return ok({ userId: user.id });
                 }
             }
-            return forbidden(new AccessDeniedError());
+            return unauthorized();
         } catch (error) {
             return serverError(error as Error);
         }
