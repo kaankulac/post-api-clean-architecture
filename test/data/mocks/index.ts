@@ -1,4 +1,3 @@
-export * from './mock-db-comment';
 export * from './mock-db-post';
 export * from './mock-cryptography';
 export * from './mock-db-log';

@@ -2,8 +2,7 @@ import { PostMongoRepository, MongoHelper } from '@infrastructure/repositories';
 import { mockCreatePostParams, mockEditPostParams } from '@test/domain/mocks';
 import env from '@main/config/env';
 
-import { Collection } from 'mongoose';
-import { faker } from '@faker-js/faker';
+import { Collection, Types } from 'mongoose';
 
 const makeSut = (): PostMongoRepository => {
     return new PostMongoRepository();
@@ -43,7 +42,7 @@ describe('PostMongoRepository', () => {
 
         test('Should return false on failure', async () => {
             const sut = makeSut();
-            const result = await sut.delete(faker.string.uuid());
+            const result = await sut.delete(new Types.ObjectId()?.toString());
             expect(result).toBe(false);
         });
     });
@@ -58,7 +57,7 @@ describe('PostMongoRepository', () => {
 
         test('Should return false on failure', async () => {
             const sut = makeSut();
-            const result = await sut.edit({ ...mockEditPostParams(), id: faker.string.uuid() });
+            const result = await sut.edit({ ...mockEditPostParams(), id: new Types.ObjectId()?.toString() });
             expect(result).toBe(false);
         });
     });
@@ -73,16 +72,16 @@ describe('PostMongoRepository', () => {
 
         test('Should return null on failure', async () => {
             const sut = makeSut();
-            const result = await sut.loadById(faker.string.uuid());
+            const result = await sut.loadById(new Types.ObjectId()?.toString());
             expect(result).toBeNull();
         });
     });
 
     describe('loadByUser', () => {
-        let author: string = faker.string.uuid();
+        let author: Types.ObjectId;
 
         beforeEach(() => {
-            author = faker.string.uuid();
+            author = new Types.ObjectId();
         });
         test('Should return posts on success', async () => {
             const sut = makeSut();
@@ -91,29 +90,51 @@ describe('PostMongoRepository', () => {
                 { ...mockCreatePostParams(), author },
                 { ...mockCreatePostParams(), author }
             ]);
-            const result = await sut.loadByUser(author);
+            const result = await sut.loadByUser(author.toString());
             expect(result).toHaveLength(3);
         });
 
         test('Should return [] when no posts found', async () => {
             const sut = makeSut();
-            const result = await sut.loadByUser(author);
-            expect(result).toBe([]);
+            const result = await sut.loadByUser(author.toString());
+            expect(result).toEqual([]);
         });
     });
 
     describe('likePost', () => {
+        let user: string;
+
+        beforeEach(() => {
+            user = new Types.ObjectId().toString();
+        });
         test('Should return true on success', async () => {
             const sut = makeSut();
-            const result = await sut.likePost({ post: faker.string.uuid(), user: faker.string.uuid() });
+            let post = await postCollection.insertOne({
+                user
+            });
+            const result = await sut.likePost({
+                post: post.insertedId.toString(),
+                user: user
+            });
             expect(result).toBe(true);
         });
     });
 
     describe('unlikePost', () => {
+        let user: string;
+
+        beforeEach(() => {
+            user = new Types.ObjectId().toString();
+        });
         test('Should return true on success', async () => {
             const sut = makeSut();
-            const result = await sut.unlikePost({ post: faker.string.uuid(), user: faker.string.uuid() });
+            let post = await postCollection.insertOne({
+                user
+            });
+            const result = await sut.unlikePost({
+                post: post.insertedId.toString(),
+                user: user
+            });
             expect(result).toBe(true);
         });
     });

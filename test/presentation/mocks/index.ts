@@ -1,3 +1,3 @@
 export * from './mock-post';
 export * from './mock-user';
-export * from './test-helpers';
+export * from './mock-validation';

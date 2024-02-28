@@ -2,6 +2,7 @@ import { PostDocument } from '@domain/models';
 import { CreatePost, EditPost, LikePost } from '@domain/usecases';
 
 import { faker } from '@faker-js/faker';
+import { Types } from 'mongoose';
 
 export const mockPostModel = (): PostDocument => ({
     id: faker.string.uuid(),
@@ -19,14 +20,14 @@ export const mockPostModel = (): PostDocument => ({
 export const mockPostModels = (): PostDocument[] => [mockPostModel(), mockPostModel(), mockPostModel()];
 
 export const mockCreatePostParams = (): CreatePost.Params => ({
-    title: faker.lorem.words(4),
+    title: 'titeltelte',
     description: faker.lorem.paragraph(),
-    author: faker.string.uuid()
+    author: new Types.ObjectId().toString()
 });
 
 export const mockEditPostParams = (): EditPost.Params => ({
     id: faker.string.uuid(),
-    title: faker.lorem.words(4),
+    title: 'titltelte',
     description: faker.lorem.paragraph()
 });
 
